@@ -44,9 +44,35 @@ $app->get('/xml', function(Request $request, Response $response) {
 
 /* middleware */ //adicionam camadas de execução de códigos dentro da aplicação;
 
-$app->add( function() {
+$app->add( function($request, $response, $next) {
+
+    $response->write('Início camada 1 + ');
+    //return $next($request, $response);
+    $response = $next($request, $response);
+
+    $response->write(' + Fim camada 1 ');
+    return $response;
     
 });
+
+$app->add( function($request, $response, $next) {
+
+    $response->write('Início camada 2 + ');
+    //return $next($request, $response);
+    $response = $next($request, $response);
+
+    $response->write(' + Fim camada 2 ');
+    return $response;
+    
+});
+
+/*
+$app->add( function($request, $response, $next) {
+
+    $response->write('Início camada 2 + ');
+    return $next($request, $response);
+    
+});*/
 
 $app->get('/usuarios', function(Request $request, Response $response) {
 
